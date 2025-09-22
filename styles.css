@@ -23,6 +23,7 @@ font-family: 'Arial', sans-serif;
 line-height: 1.6;
 color: var(--brand-black);
 background-color: #f8f9fa;
+font-size: 18px;
 }
 
 /* Container */
@@ -43,7 +44,7 @@ border-bottom: 3px solid var(--brand-green);
 
 .header h1 {
 text-align: center;
-font-size: 2.5rem;
+font-size: 32px;
 color: var(--brand-green);
 }
 
@@ -221,7 +222,7 @@ gap: 20px;
 }
 
 .logo {
-height: 120px;
+height: 160px;
 width: auto;
 }
 
@@ -239,14 +240,14 @@ margin-bottom: 50px;
 }
 
 .welcome-hero h2 {
-font-size: 3rem;
+font-size: 2.2rem;
 margin-bottom: 30px;
 font-weight: bold;
 text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 .welcome-message {
-font-size: 1.3rem;
+font-size: 1.1rem;
 margin-bottom: 20px;
 max-width: 900px;
 margin-left: auto;
@@ -255,7 +256,7 @@ line-height: 1.7;
 }
 
 .welcome-description {
-font-size: 1.1rem;
+font-size: 1rem;
 max-width: 900px;
 margin-left: auto;
 margin-right: auto;
@@ -275,14 +276,14 @@ border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .strategic-advantage h3 {
-font-size: 2.2rem;
+font-size: 1.8rem;
 margin-bottom: 20px;
 color: var(--brand-lime);
 text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .strategic-advantage > p {
-font-size: 1.2rem;
+font-size: 1rem;
 margin-bottom: 40px;
 opacity: 0.95;
 }
@@ -329,13 +330,13 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .step-content h4 {
-font-size: 1.3rem;
+font-size: 1.1rem;
 margin-bottom: 8px;
 color: var(--white);
 }
 
 .step-content p {
-font-size: 1rem;
+font-size: 0.9rem;
 opacity: 0.9;
 line-height: 1.5;
 }
@@ -367,13 +368,13 @@ border: 2px solid var(--brand-green);
 
 .project-setup-section h2 {
 color: var(--brand-green);
-font-size: 2.2rem;
+font-size: 1.8rem;
 margin-bottom: 20px;
 text-align: center;
 }
 
 .setup-description {
-font-size: 1.1rem;
+font-size: 1rem;
 text-align: center;
 margin-bottom: 25px;
 color: var(--brand-black);
@@ -387,7 +388,7 @@ padding: 20px;
 border-radius: 8px;
 margin-bottom: 30px;
 text-align: center;
-font-size: 1.1rem;
+font-size: 1rem;
 }
 
 .setup-details {
@@ -399,7 +400,7 @@ margin-bottom: 40px;
 
 .setup-column h4 {
 color: var(--brand-green);
-font-size: 1.3rem;
+font-size: 1.1rem;
 margin-bottom: 15px;
 }
 
@@ -454,7 +455,7 @@ gap: 15px;
 }
 
 .logo {
-height: 90px;
+height: 120px;
 }
 
 .welcome-hero h2 {
