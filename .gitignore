@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Netlify
+.netlify
+/netlify/functions/node_modules
+/netlify/functions/package-lock.json
+
+# Build/Deploy
+dist/
+.cache/
+.DS_Store
+```
