@@ -1,0 +1,11 @@
+{
+"name": "authority-revenue-toolkit",
+"version": "1.0.0",
+"description": "Authority Revenue Toolkit",
+"scripts": {
+"build": "cd netlify/functions && npm install"
+},
+"dependencies": {
+"node-fetch": "^2.6.1"
+}
+}
