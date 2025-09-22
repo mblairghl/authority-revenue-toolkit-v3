@@ -1,0 +1,12 @@
+{
+"name": "authority-revenue-toolkit-functions",
+"version": "1.0.0",
+"description": "Netlify functions for Authority Revenue Toolkit",
+"main": "api-proxy.js",
+"dependencies": {
+"node-fetch": "^2.6.1"
+},
+"engines": {
+"node": ">=14.0.0"
+}
+}
