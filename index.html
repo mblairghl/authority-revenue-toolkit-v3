@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Authority Revenue Toolkit v3</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+<div class="container">
+<h1>Authority Revenue Toolkit</h1>
+</div>
+</header>
+
+<main class="container">
+<!-- Survey Section -->
+<section class="survey-section" id="surveySection">
+<h2>Authority Foundation Assessment</h2>
+<p>To get started, please complete the Authority Foundation Assessment. This will take about 15-20 minutes to complete thoroughly.</p>
+
+<div class="button-group">
+<a href="https://link.cultivatingsalespro.com/widget/survey/u2E2lY6KOgl7p44N0De2"
+class="button" target="_blank">Start Assessment</a>
+<button onclick="loadSurveyData()" class="button secondary" id="loadDataBtn">
+Already Completed? Load My Data
+</button>
+</div>
+
+<div id="surveyLoader" class="loading" style="display: none;"></div>
+<div id="surveyError" class="error-message" style="display: none;"></div>
+</section>
+
+<!-- Context Summary -->
+<section class="context-summary" id="contextSummary" style="display: none;">
+<h3>Your Business Context</h3>
+<p id="surveyContext1"></p>
+<p id="surveyContext2"></p>
+</section>
+
+<!-- Steps Navigation -->
+<nav class="steps-nav" id="stepsNav" style="display: none;">
+<button class="step-button" data-step="1">1. Ideal Client Refinement</button>
+<button class="step-button" data-step="2">2. Content Audit & Mapping</button>
+<button class="step-button" data-step="3">3. Lead Intelligence</button>
+<button class="step-button" data-step="4">4. Signature Funnel Build</button>
+<button class="step-button" data-step="5">5. Sales Pipeline Automation</button>
+<button class="step-button" data-step="6">6. Build Your Delivery System</button>
+<button class="step-button" data-step="7">7. Metrics & Monitoring</button>
+<button class="step-button" data-step="8">8. Conversion Optimization</button>
+<button class="step-button" data-step="9">9. Authority Amplification</button>
+</nav>
+
+<!-- Content Area -->
+<section class="content-area" id="contentArea" style="display: none;">
+<!-- Step 1: Ideal Client Refinement -->
+<div class="step-content" id="step1">
+<h2>Ideal Client Refinement</h2>
+<div class="ai-recommendation" id="step1Recommendation"></div>
+<div class="form-group">
+<label class="form-label">Who is your ideal client?</label>
+<textarea class="form-input" id="idealClientDescription" rows="4"></textarea>
+</div>
+<button onclick="getAIRecommendation('step1')" class="button">Get AI Insights</button>
+</div>
+
+<!-- Step 2: Content Audit & Mapping -->
+<div class="step-content" id="step2" style="display: none;">
+<h2>Content Audit & Mapping</h2>
+<div class="ai-recommendation" id="step2Recommendation"></div>
+<div class="form-group">
+<label class="form-label">List your existing content assets:</label>
+<textarea class="form-input" id="contentAudit" rows="4"></textarea>
+</div>
+<button onclick="getAIRecommendation('step2')" class="button">Get AI Insights</button>
+</div>
+
+<!-- Additional steps 3-9 will be added dynamically via JavaScript -->
+</section>
+</main>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
