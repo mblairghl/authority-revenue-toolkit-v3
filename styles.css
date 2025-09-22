@@ -34,15 +34,17 @@ padding: 20px;
 
 /* Header */
 .header {
-background-color: var(--brand-green);
-color: var(--white);
+background-color: var(--white);
+color: var(--brand-green);
 padding: 20px 0;
 margin-bottom: 30px;
+border-bottom: 3px solid var(--brand-green);
 }
 
 .header h1 {
 text-align: center;
 font-size: 2.5rem;
+color: var(--brand-green);
 }
 
 /* Survey Section */
@@ -425,14 +427,15 @@ top: 5px;
 display: block;
 text-align: center;
 background-color: var(--brand-orange);
-font-size: 1.2rem;
-padding: 15px 30px;
-border-radius: 8px;
+font-size: 1.4rem;
+padding: 20px 40px;
+border-radius: 10px;
 text-decoration: none;
-max-width: 300px;
-margin: 0 auto;
+max-width: 400px;
+margin: 0 auto 20px auto;
 transition: all 0.3s ease;
-box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+font-weight: bold;
 }
 
 .project-setup-button:hover {
@@ -510,4 +513,21 @@ font-size: 1.5rem;
 flex-direction: column;
 text-align: center;
 }
+}
+
+/* Secondary Button Container */
+.secondary-button-container {
+text-align: center;
+margin-top: 15px;
+}
+
+.secondary-button-container .button.secondary {
+background-color: var(--brand-dark-blue);
+font-size: 1rem;
+padding: 12px 24px;
+max-width: 280px;
+}
+
+.secondary-button-container .button.secondary:hover {
+background-color: #3b6577;
 }
