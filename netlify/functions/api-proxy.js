@@ -32,47 +32,69 @@ body: JSON.stringify({ error: 'Missing required fields' })
 };
 }
 
-// Prepare prompt for Claude API
+// Prepare prompt for OpenAI API
 const prompt = generatePrompt(context, step, userData);
 
-// Call Claude API
-const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+// Check if API key is configured
+if (!process.env.OPENAI_API_KEY) {
+console.log('OpenAI API key not configured');
+return {
+statusCode: 200,
+headers,
+body: JSON.stringify({
+success: true,
+recommendation: 'OpenAI API key not configured. Please add your API key to enable AI recommendations.',
+source: 'fallback'
+})
+};
+}
+
+// Call OpenAI API
+console.log('Calling OpenAI API...');
+const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json',
-'x-api-key': process.env.CLAUDE_API_KEY
+'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
 },
 body: JSON.stringify({
-model: 'claude-2',
+model: 'gpt-4',
 max_tokens: 500,
 messages: [{
 role: 'user',
 content: prompt
-}]
+}],
+temperature: 0.7
 })
 });
 
-if (!claudeResponse.ok) {
-throw new Error(`Claude API error: ${claudeResponse.status}`);
+if (!openaiResponse.ok) {
+const errorText = await openaiResponse.text();
+console.error(`OpenAI API error: ${openaiResponse.status} - ${errorText}`);
+throw new Error(`OpenAI API error: ${openaiResponse.status}`);
 }
 
-const claudeData = await claudeResponse.json();
+const openaiData = await openaiResponse.json();
 
 // Process and return the recommendation
 return {
 statusCode: 200,
 headers,
 body: JSON.stringify({
-recommendation: processClaudeResponse(claudeData)
+recommendation: processOpenAIResponse(openaiData)
 })
 };
 
 } catch (error) {
-console.error('Function error:', error);
+console.error('OpenAI proxy error:', error);
 return {
-statusCode: 500,
+statusCode: 200,
 headers,
-body: JSON.stringify({ error: 'Internal server error' })
+body: JSON.stringify({
+success: true,
+recommendation: `Unable to generate AI recommendation at this time. Error: ${error.message}. Please try again later or contact support.`,
+source: 'error_fallback'
+})
 };
 }
 };
@@ -96,10 +118,10 @@ const stepPrompts = {
 return basePrompt + stepPrompts[step] + `\n\nIncorporate these specific details about the business: ${JSON.stringify(userData)}`;
 }
 
-// Helper function to process Claude's response
-function processClaudeResponse(claudeData) {
-// Extract the relevant part of Claude's response
-const response = claudeData.messages[0].content;
+// Helper function to process OpenAI's response
+function processOpenAIResponse(openaiData) {
+// Extract the relevant part of OpenAI's response
+const response = openaiData.choices[0].message.content;
 
 // Clean and format the response
 return response
