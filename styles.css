@@ -536,3 +536,252 @@ max-width: 280px;
 .secondary-button-container .button.secondary:hover {
 background-color: #3b6577;
 }
+
+
+/* Loading Spinner */
+.loading-spinner {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+margin-top: 20px;
+padding: 20px;
+}
+
+.loading-spinner p {
+margin-top: 15px;
+color: var(--brand-dark-blue);
+font-size: 1rem;
+text-align: center;
+}
+
+.spinner {
+width: 40px;
+height: 40px;
+border: 4px solid #f3f3f3;
+border-top: 4px solid var(--brand-green);
+border-radius: 50%;
+animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+/* Loading spinner responsive */
+@media (max-width: 768px) {
+.loading-spinner {
+padding: 15px;
+}
+
+.loading-spinner p {
+font-size: 0.9rem;
+}
+
+.spinner {
+width: 35px;
+height: 35px;
+}
+}
+
+
+/* Step Instructions and Form Sections */
+.step-instructions {
+background-color: #f8f9fa;
+border-left: 4px solid var(--brand-green);
+padding: 20px;
+margin-bottom: 30px;
+border-radius: 0 8px 8px 0;
+}
+
+.step-instructions h3 {
+color: var(--brand-green);
+margin-bottom: 10px;
+font-size: 1.2rem;
+}
+
+.step-instructions p {
+color: var(--brand-black);
+margin: 0;
+line-height: 1.6;
+}
+
+.form-section {
+background-color: var(--white);
+border: 2px solid #e9ecef;
+border-radius: 10px;
+padding: 25px;
+margin: 20px 0;
+}
+
+.form-section h3 {
+color: var(--brand-dark-blue);
+margin-bottom: 15px;
+font-size: 1.2rem;
+}
+
+.form-help {
+background-color: #e3f2fd;
+border-radius: 6px;
+padding: 12px;
+margin-bottom: 15px;
+}
+
+.form-help p {
+margin: 0;
+color: var(--brand-dark-blue);
+font-size: 0.9rem;
+}
+
+.form-help strong {
+color: var(--brand-green);
+}
+
+.form-input {
+width: 100%;
+padding: 15px;
+border: 2px solid #ddd;
+border-radius: 8px;
+font-size: 1rem;
+line-height: 1.5;
+resize: vertical;
+transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+outline: none;
+border-color: var(--brand-green);
+box-shadow: 0 0 0 3px rgba(14, 146, 70, 0.1);
+}
+
+.form-input::placeholder {
+color: #999;
+font-style: italic;
+}
+
+.form-actions {
+text-align: center;
+margin-top: 20px;
+}
+
+.action-help {
+margin-top: 10px;
+color: #666;
+font-size: 0.9rem;
+font-style: italic;
+}
+
+.next-steps {
+background-color: #fff3cd;
+border: 1px solid #ffeaa7;
+border-radius: 8px;
+padding: 20px;
+margin-top: 30px;
+}
+
+.next-steps h3 {
+color: var(--brand-orange);
+margin-bottom: 10px;
+font-size: 1.2rem;
+}
+
+.next-steps p {
+margin: 0;
+color: var(--brand-black);
+line-height: 1.6;
+}
+
+/* Button Styling Updates */
+.button.primary {
+background-color: var(--brand-green);
+color: var(--white);
+padding: 15px 30px;
+font-size: 1.1rem;
+font-weight: bold;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(14, 146, 70, 0.3);
+}
+
+.button.primary:hover {
+background-color: #0b7438;
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(14, 146, 70, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+.step-instructions,
+.form-section,
+.next-steps {
+padding: 15px;
+margin: 15px 0;
+}
+
+.form-input {
+padding: 12px;
+}
+
+.button.primary {
+padding: 12px 24px;
+font-size: 1rem;
+}
+}
+
+/* AI Recommendation Content Styling */
+.ai-recommendation h4 {
+color: var(--brand-green);
+margin-bottom: 15px;
+font-size: 1.2rem;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.recommendation-content {
+color: var(--brand-black);
+line-height: 1.6;
+font-size: 1rem;
+}
+
+.recommendation-content p {
+margin-bottom: 12px;
+}
+
+.recommendation-content ul {
+margin: 10px 0;
+padding-left: 20px;
+}
+
+.recommendation-content li {
+margin-bottom: 8px;
+}
+
+.recommendation-content strong {
+color: var(--brand-dark-blue);
+}
+
+/* Error Display */
+#surveyError {
+background-color: #f8d7da;
+color: #721c24;
+border: 1px solid #f5c6cb;
+border-radius: 6px;
+padding: 12px;
+margin: 15px 0;
+display: none;
+}
+
+/* Button States */
+.button:disabled {
+opacity: 0.6;
+cursor: not-allowed;
+}
+
+.button:disabled:hover {
+transform: none;
+box-shadow: none;
+}
