@@ -3,26 +3,32 @@
 // HighLevel API Functions
 async function fetchContactFromHighLevel(email) {
 try {
-const response = await fetch(`rest.gohighlevel.com/v1/contacts/lookup?email=${email}`, {
+const response = await fetch(`/.netlify/functions/highlevel-proxy?email=${encodeURIComponent(email)}`, {
 method: 'GET',
 headers: {
-'Authorization': `Bearer ${process.env.HIGHLEVEL_API_KEY}`
+'Content-Type': 'application/json'
 }
 });
 
 if (!response.ok) {
-throw new Error(`HighLevel API error: ${response.status}`);
+throw new Error(`HighLevel proxy error: ${response.status}`);
 }
 
-const data = await response.json();
-return data;
+const result = await response.json();
+
+if (result.success) {
+console.log(`Survey data loaded from: ${result.source}`);
+return result.data;
+} else {
+throw new Error(result.error || 'Failed to fetch contact data');
+}
 } catch (error) {
 console.error('HighLevel API Error:', error);
 throw error;
 }
 }
 
-// Claude AI Integration
+// OpenAI Integration
 async function getAIRecommendation(context, step, userData) {
 try {
 const response = await fetch('/.netlify/functions/api-proxy', {
