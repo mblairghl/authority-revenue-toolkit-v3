@@ -85,6 +85,10 @@ This is where we help you turn all that hard-earned knowledge into a system that
 <button onclick="loadSurveyData()" class="button secondary" id="loadDataBtn">
 Already Completed? Load My Data
 </button>
+<div class="loading-spinner" id="surveyLoader" style="display: none;">
+<div class="spinner"></div>
+<p>Loading your data and generating AI recommendations...</p>
+</div>
 </div>
 </section>
 
@@ -114,13 +118,35 @@ Already Completed? Load My Data
 <section class="content-area" id="contentArea" style="display: none;">
 <!-- Step 1: Ideal Client Refinement -->
 <div class="step-content" id="step1">
-<h2>Ideal Client Refinement</h2>
-<div class="ai-recommendation" id="step1Recommendation"></div>
-<div class="form-group">
-<label class="form-label">Who is your ideal client?</label>
-<textarea class="form-input" id="idealClientDescription" rows="4"></textarea>
+<h2>Step 1: Ideal Client Refinement</h2>
+
+<div class="step-instructions">
+<h3>📋 What You'll Do:</h3>
+<p>Review the AI recommendations above, then refine your ideal client description based on the insights provided. This will help you create more targeted marketing and better serve your clients.</p>
 </div>
-<button onclick="getAIRecommendation('step1')" class="button">Get AI Insights</button>
+
+<div class="ai-recommendation" id="step1Recommendation"></div>
+
+<div class="form-section">
+<h3>✍️ Your Turn:</h3>
+<div class="form-group">
+<label class="form-label">Describe your ideal client in detail:</label>
+<div class="form-help">
+<p><strong>Include:</strong> Demographics, business type, revenue level, main challenges, goals, and what makes them a perfect fit for your services.</p>
+</div>
+<textarea class="form-input" id="idealClientDescription" rows="6" placeholder="Example: My ideal client is a service-based business owner generating $150K-$500K annually. They're typically in consulting, coaching, or professional services. They struggle with inconsistent lead generation and want to scale to predictable revenue systems. They value expertise and are willing to invest in proven strategies..."></textarea>
+</div>
+<div class="form-actions">
+<button onclick="getStepRecommendation(1)" class="button primary">Get Personalized AI Insights</button>
+<p class="action-help">Click to get customized recommendations based on your ideal client description</p>
+<div id="surveyError" style="display: none;"></div>
+</div>
+</div>
+
+<div class="next-steps">
+<h3>🎯 What Happens Next:</h3>
+<p>After you complete this step, you'll move through the remaining 8 framework steps, each building on your ideal client foundation to create your complete revenue system.</p>
+</div>
 </div>
 
 <!-- Step 2: Content Audit & Mapping -->
