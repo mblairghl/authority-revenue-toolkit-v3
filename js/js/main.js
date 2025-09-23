@@ -4,7 +4,6 @@ let surveyData = null;
 let currentStep = 1;
 
 // DOM Elements
-const surveySection = document.getElementById('surveySection');
 const contextSummary = document.getElementById('contextSummary');
 const stepsNav = document.getElementById('stepsNav');
 const contentArea = document.getElementById('contentArea');
@@ -110,11 +109,21 @@ console.log('updateContextSummaries complete');
 
 // Show Main Interface
 function showMainInterface() {
-surveySection.style.display = 'none';
+console.log('showMainInterface called');
+if (contextSummary) {
 contextSummary.style.display = 'block';
+console.log('Context summary shown');
+}
+if (stepsNav) {
 stepsNav.style.display = 'flex';
+console.log('Steps navigation shown');
+}
+if (contentArea) {
 contentArea.style.display = 'block';
+console.log('Content area shown');
+}
 showStep(1);
+console.log('showMainInterface complete');
 }
 
 // Show Step
