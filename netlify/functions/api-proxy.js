@@ -1,131 +1,96 @@
-// Netlify Function for API Proxying
-const fetch = require('node-fetch');
+// API Integration Handler
 
-exports.handler = async function(event, context) {
-// Enable CORS
-const headers = {
-'Access-Control-Allow-Origin': '*',
-'Access-Control-Allow-Headers': 'Content-Type',
-'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
-};
-
-// Handle OPTIONS request for CORS
-if (event.httpMethod === 'OPTIONS') {
-return {
-statusCode: 200,
-headers,
-body: ''
-};
-}
-
+// HighLevel API Functions
+async function fetchContactFromHighLevel(email) {
 try {
-// Parse the incoming request
-const body = JSON.parse(event.body);
-const { context, step, userData } = body;
+const response = await fetch(`/.netlify/functions/highlevel-proxy?email=${encodeURIComponent(email)}`, {
+method: 'GET',
+headers: {
+'Content-Type': 'application/json'
+}
+});
 
-// Validate required fields
-if (!context || !step || !userData) {
-return {
-statusCode: 400,
-headers,
-body: JSON.stringify({ error: 'Missing required fields' })
-};
+if (!response.ok) {
+throw new Error(`HighLevel proxy error: ${response.status}`);
 }
 
-// Prepare prompt for OpenAI API
-const prompt = generatePrompt(context, step, userData);
+const result = await response.json();
 
-// Check if API key is configured
-if (!process.env.OPENAI_API_KEY) {
-console.log('OpenAI API key not configured');
-return {
-statusCode: 200,
-headers,
-body: JSON.stringify({
-success: true,
-recommendation: 'OpenAI API key not configured. Please add your API key to enable AI recommendations.',
-source: 'fallback'
-})
-};
+if (result.success) {
+console.log(`Survey data loaded from: ${result.source}`);
+return result.data;
+} else {
+throw new Error(result.error || 'Failed to fetch contact data');
+}
+} catch (error) {
+console.error('HighLevel API Error:', error);
+throw error;
+}
 }
 
-// Call OpenAI API
-console.log('Calling OpenAI API...');
-const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+// OpenAI Integration
+async function getAIRecommendation(context, step, userData) {
+try {
+const response = await fetch('/.netlify/functions/api-proxy', {
 method: 'POST',
 headers: {
-'Content-Type': 'application/json',
-'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+'Content-Type': 'application/json'
 },
 body: JSON.stringify({
-model: 'gpt-4',
-max_tokens: 500,
-messages: [{
-role: 'user',
-content: prompt
-}],
-temperature: 0.7
+context: context,
+step: step,
+userData: userData
 })
 });
 
-if (!openaiResponse.ok) {
-const errorText = await openaiResponse.text();
-console.error(`OpenAI API error: ${openaiResponse.status} - ${errorText}`);
-throw new Error(`OpenAI API error: ${openaiResponse.status}`);
+if (!response.ok) {
+throw new Error('Failed to get AI recommendation');
 }
 
-const openaiData = await openaiResponse.json();
-
-// Process and return the recommendation
-return {
-statusCode: 200,
-headers,
-body: JSON.stringify({
-recommendation: processOpenAIResponse(openaiData)
-})
-};
-
+const data = await response.json();
+return data.recommendation;
 } catch (error) {
-console.error('OpenAI proxy error:', error);
+console.error('AI Error:', error);
+throw error;
+}
+}
+
+// Demo Data Generator
+function getDemoData() {
 return {
-statusCode: 200,
-headers,
-body: JSON.stringify({
-success: true,
-recommendation: `Unable to generate AI recommendation at this time. Error: ${error.message}. Please try again later or contact support.`,
-source: 'error_fallback'
-})
+businessType: "Business Coach",
+clientType: "Service-based business owners",
+mainChallenge: "Inconsistent lead generation",
+goal: "Scale to predictable revenue systems",
+expertise: "Business strategy and systems optimization",
+currentRevenue: "$150,000-$300,000",
+desiredRevenue: "$500,000+",
+marketingChannels: ["LinkedIn", "Referrals", "Content Marketing"],
+salesProcess: "Discovery calls to strategy sessions",
+deliveryMethod: "1:1 coaching and group programs"
 };
 }
+
+// Data Processing
+function processUserData(data) {
+return {
+context: `Based on your assessment: You're a ${data.businessType} working with ${data.clientType}, with your main challenge being ${data.mainChallenge}. Your goal is to ${data.goal}.`,
+recommendations: {
+step1: `Focus on ${data.clientType} who are specifically looking to ${data.goal}.`,
+step2: `Leverage your expertise in ${data.expertise} to create content that addresses ${data.mainChallenge}.`,
+step3: `Build a lead generation system focusing on ${data.marketingChannels.join(", ")}.`,
+step4: `Design a funnel that converts through ${data.salesProcess}.`,
+step5: `Optimize your ${data.salesProcess} to reach ${data.desiredRevenue}.`,
+step6: `Structure your ${data.deliveryMethod} for scalability.`,
+step7: `Track progress from ${data.currentRevenue} to ${data.desiredRevenue}.`,
+step8: `Improve conversion rates in your ${data.salesProcess}.`,
+step9: `Expand your authority presence on ${data.marketingChannels.join(", ")}.`
+}
 };
-
-// Helper function to generate appropriate prompt based on step
-function generatePrompt(context, step, userData) {
-const basePrompt = `Given this business context: ${context}\n\n`;
-
-const stepPrompts = {
-1: "Provide specific recommendations for refining the ideal client profile. Focus on demographic and psychographic characteristics that align with the business goals.",
-2: "Suggest content topics and formats that would resonate with the ideal client profile. Consider the business challenges and goals.",
-3: "Recommend lead generation and qualification strategies that align with the business type and target market.",
-4: "Propose a funnel structure that would effectively convert leads for this specific business model.",
-5: "Suggest automation points in the sales pipeline that would improve efficiency while maintaining relationship quality.",
-6: "Recommend a delivery system structure that balances scalability with quality service delivery.",
-7: "Identify the key metrics that should be tracked for this specific business model and growth goals.",
-8: "Provide specific suggestions for optimizing conversion rates at each stage of the customer journey.",
-9: "Recommend authority-building activities that align with the business goals and target market."
-};
-
-return basePrompt + stepPrompts[step] + `\n\nIncorporate these specific details about the business: ${JSON.stringify(userData)}`;
 }
 
-// Helper function to process OpenAI's response
-function processOpenAIResponse(openaiData) {
-// Extract the relevant part of OpenAI's response
-const response = openaiData.choices[0].message.content;
-
-// Clean and format the response
-return response
-.replace(/\n\n/g, ' ')
-.replace(/\s+/g, ' ')
-.trim();
-}
+// Export functions
+window.fetchContactFromHighLevel = fetchContactFromHighLevel;
+window.getAIRecommendation = getAIRecommendation;
+window.getDemoData = getDemoData;
+window.processUserData = processUserData;
