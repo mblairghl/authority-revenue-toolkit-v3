@@ -45,10 +45,11 @@ let data;
 
 try {
 data = await fetchContactFromHighLevel(email);
+console.log('Survey data loaded successfully:', data);
 } catch (error) {
 console.log('Survey data loading error:', error);
 // Fall back to demo data if API fails
-console.log('User chose demo data');
+console.log('Using fallback demo data');
 data = getDemoData();
 }
 
