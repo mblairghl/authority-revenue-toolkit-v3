@@ -35,7 +35,9 @@ showStep(step);
 // Load Survey Data
 async function loadSurveyData() {
 try {
+// Show loading spinner
 showSurveyLoader(true);
+console.log('Loading survey data...');
 
 // For demo purposes, use demo data
 // In production, this would fetch real survey data
@@ -154,7 +156,13 @@ button.classList.add('active');
 function updateStepRecommendation(step, recommendation) {
 const recommendationElement = document.getElementById(`step${step}Recommendation`);
 if (recommendationElement) {
-recommendationElement.textContent = recommendation;
+recommendationElement.innerHTML = `
+<h4>🤖 AI Recommendations:</h4>
+<div class="recommendation-content">
+${recommendation}
+</div>
+`;
+recommendationElement.style.display = 'block';
 }
 }
 
@@ -174,5 +182,59 @@ error.style.display = 'block';
 }
 }
 
+// Get Step Recommendation (wrapper for button clicks)
+async function getStepRecommendation(step) {
+try {
+// Check if data is loaded
+if (!isDataLoaded || !surveyData) {
+showError('Please load your survey data first by clicking the "Already Completed? Load My Data" button.');
+return;
+}
+
+// Get user input for the current step
+let userInput = '';
+if (step === 1) {
+const inputField = document.getElementById('idealClientDescription');
+userInput = inputField ? inputField.value.trim() : '';
+if (!userInput) {
+showError('Please describe your ideal client before getting AI insights.');
+return;
+}
+}
+
+// Show loading state
+const button = event.target;
+const originalText = button.textContent;
+button.textContent = 'Getting AI Insights...';
+button.disabled = true;
+
+// Generate context
+const context = `Based on your assessment: You're a ${surveyData.businessType} working with ${surveyData.clientType}, with your main challenge being ${surveyData.mainChallenge}. Your goal is to ${surveyData.goal}.`;
+
+// Get AI recommendation
+const recommendation = await getAIRecommendation(context, step, {
+...surveyData,
+userInput: userInput
+});
+
+// Update the recommendation display
+updateStepRecommendation(step, recommendation);
+
+// Reset button
+button.textContent = originalText;
+button.disabled = false;
+
+} catch (error) {
+console.error('Error getting step recommendation:', error);
+showError('Failed to get AI recommendation. Please try again.');
+
+// Reset button
+const button = event.target;
+button.textContent = 'Get Personalized AI Insights';
+button.disabled = false;
+}
+}
+
 // Export functions
 window.loadSurveyData = loadSurveyData;
+window.getStepRecommendation = getStepRecommendation;
